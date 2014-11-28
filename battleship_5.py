@@ -7,6 +7,7 @@ What could be better:
     - show location of ship when player loses?
 '''
 from random import randint
+from __builtin__ import int
 from reportlab.lib.validators import isInt
 
 
@@ -150,7 +151,7 @@ for turn in range(_turns):
         _ship_trim_name = trim_leading_noise(_ship_name)
         if _ship_trim_name == _ship_name:
             _ship_name = "my " + _ship_name
-        print("Congratulations! You sunk {}!".format(_ship_name))
+        print("You sunk {}!".format(_ship_name))
         _marker = best_effort_abbreviation(_ship_name).upper()
         _board[_guess_row][_guess_col] = _marker
 
@@ -165,6 +166,8 @@ for turn in range(_turns):
         print("Game Over")
         if _ships_sunk == _ships_count:
             print("Congratulations! You win!")
+            print("")
+            break
         else:
             print("You poor sap - lost again, did you?")
         print("")
