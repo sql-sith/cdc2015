@@ -183,14 +183,10 @@ _guess_regex = "^([a-jA-J])-?(10|[1-9])$"
 _rows = 10
 _cols = 10
 
-_misses_allowed = get_int_from_user("How many misses allowed? ", 10, 50)  
-
-
 _board = []
 for x in range(_rows):
     _board.append([_board_initial_char] * _cols)
 
-print("")
 _ships = [ { "Name" : "Aircraft Carrier", "Length" : 5, "Abbreviation" : "a", "Positions" : []},
            { "Name" : "Battleship", "Length" : 4, "Abbreviation" : "b", "Positions" : []},
            { "Name" : "Cruiser", "Length" : 3, "Abbreviation" : "c", "Positions" : []},
@@ -199,18 +195,20 @@ _ships = [ { "Name" : "Aircraft Carrier", "Length" : 5, "Abbreviation" : "a", "P
            ]  
 _ships_count = len(_ships)
 
-for _s in _ships:
-    place_ship(_board, _s)
+for ship in _ships:
+    place_ship(_board, ship)
 
 if _debug:
-    for _s in _ships:
-        print(_s)
+    for ship in _ships:
+        print(ship)
     mark_ship_positions(_board, _ships, True)
 
 if not _debug:
     clear_console()
 
 print("Let's play Battleship!\n")
+print("")
+_misses_allowed = get_int_from_user("How many misses allowed? ", 10, 50)  
 
 while _misses < _misses_allowed and _ships_sunk < _ships_count:
     _turns += 1
@@ -275,3 +273,4 @@ while _misses < _misses_allowed and _ships_sunk < _ships_count:
 
 mark_ship_positions(_board, _ships, True)
 print_board(_board)
+print("")
