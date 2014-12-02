@@ -170,7 +170,11 @@ def clear_console():
 
 # main:
 _debug = False
+<<<<<<< HEAD
 _board_initial_char = "*"
+=======
+_board_initial_char = "O"
+>>>>>>> 73ebb4a4d268b9978a98d14a82550966be03a3bf
 _board_missed_char = "X"
 _noise_words = ['the', 'a', 'an', 'this', 'these', 'those', 'some']
 _ships_sunk = 0
