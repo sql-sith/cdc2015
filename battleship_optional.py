@@ -49,21 +49,31 @@ def print_board(board):
         sys.stdout.write("\n")
 
 
-def mark_ship_positions(board, ships, force_lowercase=True):
+def mark_ships_positions(board, ships, case=None):
     '''
     Marks the position of each ship in board, but only if it has not
     already been marked (by being sunk).
     '''
     for ship in ships:
-        for position in ship["Positions"]:
-            row = position[0]
-            col = position[1]
+        mark_ship_position(ship, case)
 
-            if board[row][col] == _board_initial_char:
-                marker = ship["Abbreviation"]
-                if force_lowercase:
-                    marker = marker.lower()
-                board[row][col] = marker
+
+def mark_ship_position(ship, case=None):
+    '''
+    Marks the position of one ship, but only if it has not already
+    been marked (by being sunk).
+    '''
+    for position in ship["Positions"]:
+        row = position[0]
+        col = position[1]
+
+        if _board[row][col] in (_board_initial_char, _board_hit_char):
+            marker = ship["Abbreviation"]
+            if case.lower() == "lower":
+                marker = marker.lower()
+            elif case.lower() == "upper":
+                marker = marker.upper()
+            _board[row][col] = marker
 
 
 def random_row(board):
@@ -156,7 +166,7 @@ def hit(row, col):
 def sunk(ship):
     all_hit = True
     for position in ship["Positions"]:
-        if _board[position[0]][position[1]] != ship["Abbreviation"].upper():
+        if _board[position[0]][position[1]] not in(ship["Abbreviation"].upper(), _board_hit_char):
             all_hit = False
             break
     return(all_hit)
@@ -172,6 +182,7 @@ def clear_console():
 _debug = False
 _board_initial_char = "*"
 _board_missed_char = "X"
+_board_hit_char = "H"
 _noise_words = ['the', 'a', 'an', 'this', 'these', 'those', 'some']
 _ships_sunk = 0
 _misses = 0
@@ -201,7 +212,7 @@ for ship in _ships:
 if _debug:
     for ship in _ships:
         print(ship)
-    mark_ship_positions(_board, _ships, True)
+    mark_ships_positions(_board, _ships, "lower")
 
 if not _debug:
     clear_console()
@@ -209,6 +220,9 @@ if not _debug:
 print("Let's play Battleship!\n")
 print("")
 _misses_allowed = get_int_from_user("How many misses allowed? ", 10, 50)  
+
+clear_console()
+print "" # so this screen has the same "top buffer" as other screens
 
 while _misses < _misses_allowed and _ships_sunk < _ships_count:
     _turns += 1
@@ -242,7 +256,7 @@ while _misses < _misses_allowed and _ships_sunk < _ships_count:
             (_guess_col < 0 or _guess_col > _cols - 1)):
         print("Oops, that's not even in the ocean.")
         _mistakes += 1
-    elif _board[_guess_row][_guess_col] not in(_board_initial_char, _board[_guess_row][_guess_col].lower()):
+    elif _board[_guess_row][_guess_col] not in(_board_initial_char, _board_hit_char, _board[_guess_row][_guess_col].lower()):
         print("You guessed that one already.")
         _mistakes += 1
     else:
@@ -252,14 +266,18 @@ while _misses < _misses_allowed and _ships_sunk < _ships_count:
             _board[_guess_row][_guess_col] = "X"
             _misses += 1
         else:
-            _ship_name = _ship_hit["Name"]
-            _board[_guess_row][_guess_col] = _ship_hit["Abbreviation"].upper()
+            if _debug:
+                board[_guess_row][_guess_col] = _ship_hit["Abbreviation"].upper()
+            else:
+                _board[_guess_row][_guess_col] = _board_hit_char
             
             if sunk(_ship_hit):
-                print("You sunk my {}!".format(_ship_name))
+                print("You sunk my {}!".format(_ship_hit["Name"]))
+                mark_ship_position(_ship_hit, "upper")
                 _ships_sunk += 1
             else:
-                print("Hit - {}.".format(_ship_name))
+                #print("Hit - {}.".format(_ship_name))
+                print("Hit!")
             _hits += 1
 
     if _misses == _misses_allowed or _ships_sunk == _ships_count:
@@ -271,6 +289,6 @@ while _misses < _misses_allowed and _ships_sunk < _ships_count:
             print("You poor sap - lost again, did you?")
         print("")
 
-mark_ship_positions(_board, _ships, True)
+mark_ships_positions(_board, _ships, "lower")
 print_board(_board)
 print("")
