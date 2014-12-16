@@ -31,21 +31,29 @@ def print_board(board):
     print "     1   2   3   4   5   6   7   8   9  10"
     print "    --- --- --- --- --- --- --- --- --- ---"
     for row in range(len(board)):
-        sys.stdout.write(chr(ord("A") + row) + " |  " + "   ".join(board[row]) + "          ")
+        sys.stdout.write(chr(ord("A") + row) + " |  " + "   "
+                         .join(board[row]) + "          ")
         if row in (0, 2, 9):
             sys.stdout.write("=".center(30, "="))
         elif row == 1:
-            sys.stdout.write("==" + "Turn # {0}".format(_turns).center(26) + "==")
+            sys.stdout.write("==" + "Turn # {0}"
+                             .format(_turns).center(26) + "==")
         elif row in (3, 8):
             sys.stdout.write("==" + " ".center(26) + "==")
         elif row == 4:
-            sys.stdout.write("==" + "Hits: {0}".format(_hits).center(26) + "==")
+            sys.stdout.write("==" + "Hits: {0}"
+                             .format(_hits).center(26) + "==")
         elif row == 5:
-            sys.stdout.write("==" + "Misses: {0} / {1}".format(_misses, _misses_allowed).center(26) + "==")
+            sys.stdout.write("==" + "Misses: {0} / {1}"
+                             .format(_misses, _misses_allowed)
+                             .center(26) + "==")
         elif row == 6:
-            sys.stdout.write("==" + "Mistakes: {0}".format(_mistakes).center(26) + "==")
+            sys.stdout.write("==" + "Mistakes: {0}"
+                             .format(_mistakes).center(26) + "==")
         elif row == 7:
-            sys.stdout.write("==" + "Sunk: {0} / {1}".format(_ships_sunk, _ships_count).center(26) + "==")
+            sys.stdout.write("==" + "Sunk: {0} / {1}"
+                             .format(_ships_sunk, _ships_count)
+                             .center(26) + "==")
         sys.stdout.write("\n")
 
 
@@ -166,7 +174,8 @@ def hit(row, col):
 def sunk(ship):
     all_hit = True
     for position in ship["Positions"]:
-        if _board[position[0]][position[1]] not in(ship["Abbreviation"].upper(), _board_hit_char):
+        if _board[position[0]][position[1]] not in(
+                ship["Abbreviation"].upper(), _board_hit_char):
             all_hit = False
             break
     return(all_hit)
@@ -179,7 +188,7 @@ def clear_console():
 
 
 # main:
-_debug = False
+_debug = True
 _board_initial_char = "*"
 _board_missed_char = "X"
 _board_hit_char = "H"
@@ -198,11 +207,16 @@ _board = []
 for x in range(_rows):
     _board.append([_board_initial_char] * _cols)
 
-_ships = [ { "Name" : "Aircraft Carrier", "Length" : 5, "Abbreviation" : "a", "Positions" : []},
-           { "Name" : "Battleship", "Length" : 4, "Abbreviation" : "b", "Positions" : []},
-           { "Name" : "Cruiser", "Length" : 3, "Abbreviation" : "c", "Positions" : []},
-           { "Name" : "Destroyer", "Length" : 2, "Abbreviation" : "d", "Positions" : []},
-           { "Name" : "Submarine", "Length" : 3, "Abbreviation" : "s", "Positions" : []}
+_ships = [ { "Name" : "Aircraft Carrier", "Length" : 5, 
+             "Abbreviation" : "a", "Positions" : []},
+           { "Name" : "Battleship", "Length" : 4, 
+             "Abbreviation" : "b", "Positions" : []},
+           { "Name" : "Cruiser", "Length" : 3, 
+             "Abbreviation" : "c", "Positions" : []},
+           { "Name" : "Destroyer", "Length" : 2, 
+             "Abbreviation" : "d", "Positions" : []},
+           { "Name" : "Submarine", "Length" : 3, 
+             "Abbreviation" : "s", "Positions" : []}
            ]  
 _ships_count = len(_ships)
 
@@ -219,7 +233,7 @@ if not _debug:
 
 print("Let's play Battleship!\n")
 print("")
-_misses_allowed = get_int_from_user("How many misses allowed? ", 10, 50)  
+_misses_allowed = get_int_from_user("How many misses allowed? ", 10, 50)
 
 clear_console()
 print "" # so this screen has the same "top buffer" as other screens
@@ -242,21 +256,28 @@ while _misses < _misses_allowed and _ships_sunk < _ships_count:
             print("Please enter your guess in the format A-1 or A1.")
             print("")
     
-    _guess_row = ord(_guess_match.group(1).upper()) - ord("A") # maps A -> 0, B -> 1, etc.
-    _guess_col = int(_guess_match.group(2)) - 1 # should never fail, per validation
+    # maps A -> 0, B -> 1, etc:
+    _guess_row = ord(_guess_match.group(1).upper()) - ord("A")
+    # should never fail, per validation:
+    _guess_col = int(_guess_match.group(2)) - 1 
     
     if not _debug:
         clear_console()
 
     if _debug:
-        print("You guessed {0:s}, which maps to row {1:d} and column {2:d}.".format(_guess_input, _guess_row, _guess_col))
+        print("You guessed {0:s}, which maps to row {1:d} and column {2:d}."
+              .format(_guess_input, _guess_row, _guess_col))
     
-    # first case should not happen per validation, but leaving it in just in case:
+    # first case should not happen per validation,
+    # but leaving it in just in case:
     if ((_guess_row < 0 or _guess_row > _rows - 1) or
             (_guess_col < 0 or _guess_col > _cols - 1)):
         print("Oops, that's not even in the ocean.")
         _mistakes += 1
-    elif _board[_guess_row][_guess_col] not in(_board_initial_char, _board_hit_char, _board[_guess_row][_guess_col].lower()):
+    elif _board[_guess_row][_guess_col] not in(
+            _board_initial_char,
+            _board_hit_char,
+            _board[_guess_row][_guess_col].lower()):
         print("You guessed that one already.")
         _mistakes += 1
     else:
@@ -267,7 +288,8 @@ while _misses < _misses_allowed and _ships_sunk < _ships_count:
             _misses += 1
         else:
             if _debug:
-                board[_guess_row][_guess_col] = _ship_hit["Abbreviation"].upper()
+                board[_guess_row][_guess_col] = (
+                    _ship_hit["Abbreviation"].upper())
             else:
                 _board[_guess_row][_guess_col] = _board_hit_char
             

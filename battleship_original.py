@@ -9,7 +9,7 @@ What could be better:
 from random import randint
 
 _board = []
-_debug = True
+_debug = False
 
 for x in range(5):
     _board.append(["O"] * 5)
