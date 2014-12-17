@@ -15,6 +15,8 @@ tolerance = Decimal('0.00000000000000001')
 def square_root_newton(num):
     '''
         See http://mathworld.wolfram.com/NewtonsIteration.html for details.
+        See https://mitpress.mit.edu/sicp/full-text/sicp/book/node12.html
+            for another discussion of the same algorithm.
     '''
 
     if not isNumber(num):
@@ -71,7 +73,7 @@ _NO_SOLUTION_FOUND = Exception('No solution found. Cry me a river.')
 
 
 if __name__ == "__main__":
-    square = 100
+    square = 1001293847612398
 
     #===========================================================================
     # try:
