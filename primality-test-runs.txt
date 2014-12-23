@@ -1,0 +1,46 @@
+1
+24.5
+13.229591836734693877551020408163265306
+8.4289108431648787552043570995694845620
+7.0617983875436862447298757846167848430
+6.9294669073918787437984506348869085660
+6.9282033454993695213371719811128034125
+Guesses: 7; final_guess: 6.9282032302755101322613674743872772315; accuracy: 1.3276537772513512428971E-14
+6.9282032302755101322613674743872772315
+48.000000000000013276537772513512428971
+
+##### Starting regex tests (will not do prime_big_trial:
+The number 0 is not prime.
+The number 1 is not prime.
+The number 2 is prime.
+The number 3 is prime.
+The number 4 is not prime.
+The number 5 is prime.
+
+##### Starting trial division tests:
+The number 0 is not prime.
+The number 1 is not prime.
+The number 2 is prime.
+The number 3 is prime.
+The number 4 is not prime.
+The number 5 is prime.
+0:06:09.932533
+The number 2305843009213693951 is prime.
+
+##### Starting wiki tests:
+The number 0 is not prime.
+The number 1 is not prime.
+The number 2 is prime.
+The number 3 is prime.
+The number 4 is not prime.
+The number 5 is prime.
+
+##### Starting Miller-Rabin tests:
+The number 0 is prime.
+The number 1 is prime.
+The number 2 is prime.
+The number 3 is prime.
+The number 4 is not prime.
+The number 5 is prime.
+0:00:00.000060
+The number 2305843009213693951 is prime.

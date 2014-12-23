@@ -250,11 +250,14 @@ if __name__ == "__main__":
         print(e)
 
     try:
-        prime_big_trial = 10000064564646464646464000876587658765876587658765876587658345324321316575780999874530001031013011293754911101
+        prime_big_trial = 1087658345316575780999874530001031013011293754911
+        # mersenne primes will make the naive algorithm have a bad day.
+        # see https://primes.utm.edu/mersenne/index.html
+        prime_big_trial = 2**31-1
         prime_loop_trial_count = 6
 
         print("")
-        print("##### Starting regex tests (will not do prime_big_trial:")
+        print("##### Starting regex tests:")
 
         _debug = False
         for i in range(prime_loop_trial_count):
@@ -265,13 +268,11 @@ if __name__ == "__main__":
                   .format(i, negator))
         _debug = True
 
-        # ===================================================================
-        # negator = ""
-        # if not is_prime_regex(prime_big_trial):
-        #     negator = "not "
-        # print ("The number {0} is {1}prime."
-        #        .format(prime_big_trial, negator))
-        # ===================================================================
+        negator = ""
+        if not is_prime_regex(prime_big_trial):
+            negator = "not "
+        print ("The number {0} is {1}prime."
+               .format(prime_big_trial, negator))
 
         print("")
         print("##### Starting trial division tests:")
@@ -302,13 +303,11 @@ if __name__ == "__main__":
                   .format(i, negator))
         _debug = True
 
-        # ===================================================================
-        # negator = ""
-        # if not is_prime_wiki(prime_big_trial):
-        #     negator = "not "
-        # print ("The number {0} is {1}prime."
-        #        .format(prime_big_trial, negator))
-        # ===================================================================
+        negator = ""
+        if not is_prime_wiki(prime_big_trial):
+            negator = "not "
+        print ("The number {0} is {1}prime."
+               .format(prime_big_trial, negator))
 
         print("")
         print("##### Starting Miller-Rabin tests:")
