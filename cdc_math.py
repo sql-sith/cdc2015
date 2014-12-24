@@ -129,7 +129,7 @@ def is_prime_regex(num):
         return(True)
 
 
-def is_prime_trial_division(num):
+def is_prime_naive_division(num):
     # if not isInt(num): raise _NON_INTEGER_ARG  # @IgnorePep8
     if num < 0: raise _NEGATIVE_ARG  # @IgnorePep8
 
@@ -242,19 +242,25 @@ if __name__ == "__main__":
     #     print(e)
     # =======================================================================
 
-    try:
-        root = square_root_newton(square, precision=38)
-        print(root)
-        print(root * root)
-    except Exception as e:
-        print(e)
+    # =======================================================================
+    # try:
+    #     root = square_root_newton(square, precision=38)
+    #     print(root)
+    #     print(root * root)
+    # except Exception as e:
+    #     print(e)
+    # =======================================================================
 
     try:
-        prime_big_trial = 1087658345316575780999874530001031013011293754911
+        # prime_big_trial = 10876570039
+        # prime_big_trial = 100000000001
         # mersenne primes will make the naive algorithm have a bad day.
         # see https://primes.utm.edu/mersenne/index.html
-        prime_big_trial = 2**31-1
-        prime_loop_trial_count = 6
+        prime_big_trial = 2**57885161-1
+        prime_loop_trial_count = 0
+        _perform_regex_big_trial = False
+        _perform_naive_big_trial = False
+        _perform_wiki_big_trial = False
 
         print("")
         print("##### Starting regex tests:")
@@ -268,28 +274,30 @@ if __name__ == "__main__":
                   .format(i, negator))
         _debug = True
 
-        negator = ""
-        if not is_prime_regex(prime_big_trial):
-            negator = "not "
-        print ("The number {0} is {1}prime."
-               .format(prime_big_trial, negator))
+        if _perform_regex_big_trial:
+            negator = ""
+            if not is_prime_regex(prime_big_trial):
+                negator = "not "
+            print ("The number {0} is {1}prime."
+                   .format(prime_big_trial, negator))
 
         print("")
-        print("##### Starting trial division tests:")
+        print("##### Starting naive tests:")
         _debug = False
         for i in range(prime_loop_trial_count):
             negator = ""
-            if not is_prime_trial_division(i):
+            if not is_prime_naive_division(i):
                 negator = "not "
             print("The number {0} is {1}prime."
                   .format(i, negator))
         _debug = True
 
-        negator = ""
-        if not is_prime_trial_division(prime_big_trial):
-            negator = "not "
-        print ("The number {0} is {1}prime."
-               .format(prime_big_trial, negator))
+        if _perform_naive_big_trial:
+            negator = ""
+            if not is_prime_naive_division(prime_big_trial):
+                negator = "not "
+            print ("The number {0} is {1}prime."
+                   .format(prime_big_trial, negator))
 
         print("")
         print("##### Starting wiki tests:")
@@ -303,11 +311,12 @@ if __name__ == "__main__":
                   .format(i, negator))
         _debug = True
 
-        negator = ""
-        if not is_prime_wiki(prime_big_trial):
-            negator = "not "
-        print ("The number {0} is {1}prime."
-               .format(prime_big_trial, negator))
+        if _perform_wiki_big_trial:
+            negator = ""
+            if not is_prime_wiki(prime_big_trial):
+                negator = "not "
+            print ("The number {0} is {1}prime."
+                   .format(prime_big_trial, negator))
 
         print("")
         print("##### Starting Miller-Rabin tests:")
