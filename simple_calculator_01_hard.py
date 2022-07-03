@@ -1,9 +1,16 @@
-'''
+"""
 Shows one way to implement a solution to Challenge Exercise 4 (simple calculator)
 
 @author: sql.sith
-'''
-def calcThis(int1, op, int2):
+"""
+
+from sys import version_info
+
+if version_info.major < 3:
+    input = raw_input
+
+
+def calc_this(int1, op, int2):
     if op == "+":
         return int1 + int2
     elif op == "-":
@@ -17,11 +24,13 @@ def calcThis(int1, op, int2):
         print("The only operators supported are: +-/*")
         raise(Exception(_INVALID_OPERATOR))
 
+
 _debug = False
 
 print("Goal 1\n")
-typedInput = raw_input("Enter an arithmetic problem in the form INT1 OPERATOR INT2: ")
-#typedInputSaved = typedInput
+
+typedInput = input("Enter an arithmetic problem in the form INT1 OPERATOR INT2: ")
+# typedInputSaved = typedInput
 
 # get the first number, one hard way (there are several):
 firstNumberString = ""
@@ -50,4 +59,4 @@ if _debug:
     print("operator: " + operator)
     print("secondNumber: " + str(secondNumber))
 
-print calcThis(firstNumber, operator, secondNumber)
+print (calc_this(firstNumber, operator, secondNumber))

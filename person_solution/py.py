@@ -20,7 +20,7 @@ class Person(object):
     # yeah, that would work, but the following is easier.
     # see also args/kwargs discussed at
     #     https://docs.python.org/dev/tutorial/controlflow.html
-    #     (searh for * and ** on that page)
+    #     (search for * and ** on that page)
     # ========================================================================
     def __init__(self, **kwargs):
 

@@ -1,19 +1,22 @@
-'''
+"""
 One implementation of a solution to the rusty_calculator challenge.
 Created on Feb 10, 2015
 
 @author: sql.sith
-'''
+"""
 
 
 def answer(instring):
+    """ calculate and return answer for arithmetic stored in instring.
+        instring will hold integers, + and * symbols only.
+    """
     digits = '0123456789'
     star = '*'
     plus = '+'
 
     retval = ''
-    heldStars = 0
-    heldPlusses = 0
+    held_stars = 0
+    held_plusses = 0
 
     for c in instring:
         if c in digits:
@@ -29,29 +32,29 @@ def answer(instring):
         elif c == star:
             # glob the stars together to go at the end of each
             # multiplicative term:
-            heldStars += 1
+            held_stars += 1
         elif c == plus:
             # glob the plusses together for the very end of the retval...
-            heldPlusses += 1
+            held_plusses += 1
             # ...but print stars when you find a plus, since plusses will
             # separate multiplicative terms:
-            for _ in xrange(heldStars):
+            for _ in range(held_stars):
                 retval += star
-            heldStars = 0
+            held_stars = 0
 
     # at the end, we may have stars, which we need to print first to make
     # the RPN notation evaluate correctly:
-    for _ in xrange(heldStars):
+    for _ in range(held_stars):
         retval += star
 
     # at the end, we may have plusses, which we need to print last to make
     # the RPN notation evaluate correctly:
-    for _ in range(heldPlusses):
+    for _ in range(held_plusses):
         retval += plus
 
     # note: at the end, we will not have digits, since they will always be
     # immediately printed to the retval.
-    return(retval)
+    return retval
 
 
 print(answer('2+3*2'))

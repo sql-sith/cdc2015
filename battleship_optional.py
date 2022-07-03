@@ -3,33 +3,39 @@ Battleship: a one-player Python implementation of the classic board game.
 Author: sql.sith
 '''
 from random import randint
-from reportlab.lib.validators import isInt
+# from reportlab.lib.validators import isInt
 import re
 import sys
 import os
+
+g_intRegex = re.compile(r"^\s*[-+]?\d+(\.0*)?\s*$")
+
+
+def isInt(candidate):
+    """Determine if candidate can be represented as an int"""
+    return g_intRegex.match(str(candidate).strip()) is not None
 
 
 def get_int_from_user(prompt, min, max):
 
     done = False
     while not done:
-        the_string = raw_input(prompt)
+        the_string = input(prompt)
         if isInt(the_string):
             the_int = int(the_string)
             if the_int >= min and the_int <= max:
                 done = True
             else:
-                print('Error - the integer must be between {} and {}!'
-                      .format(min, max))
+                print(f'Error - the integer must be between {min} and {max}!')
         else:
-            print('{} is not an integer. Please try again.'.format(the_string))
+            print(('{} is not an integer. Please try again.'.format(the_string)))
 
     return(the_int)
 
 
 def print_board(board):
-    print "     1   2   3   4   5   6   7   8   9  10"
-    print "    --- --- --- --- --- --- --- --- --- ---"
+    print("     1   2   3   4   5   6   7   8   9  10")
+    print("    --- --- --- --- --- --- --- --- --- ---")
     for row in range(len(board)):
         sys.stdout.write(chr(ord("A") + row) + " |  " + "   "
                          .join(board[row]) + "          ")
@@ -136,10 +142,10 @@ def place_ship(board, ship):
             ship_placed = True
     
     if _debug:  
-        print ship
-        print max_row_if_vertical
-        print max_col_if_horizontal
-        print ship["Positions"]
+        print(ship)
+        print(max_row_if_vertical)
+        print(max_col_if_horizontal)
+        print(ship["Positions"])
 
 
 def trim_leading_noise(the_string):
@@ -184,11 +190,11 @@ def clear_console():
     if 'TERM' in os.environ:
         os.system('cls' if os.name=='nt' else 'clear')
     else:
-        print("\n" * 50)
+        print(("\n" * 50))
 
 
 # main:
-_debug = True
+_debug = False
 _board_initial_char = "*"
 _board_missed_char = "X"
 _board_hit_char = "H"
@@ -236,7 +242,7 @@ print("")
 _misses_allowed = get_int_from_user("How many misses allowed? ", 10, 50)
 
 clear_console()
-print "" # so this screen has the same "top buffer" as other screens
+print("") # so this screen has the same "top buffer" as other screens
 
 while _misses < _misses_allowed and _ships_sunk < _ships_count:
     _turns += 1
@@ -244,13 +250,13 @@ while _misses < _misses_allowed and _ships_sunk < _ships_count:
     print("")
     print_board(_board)
     print("")
-    print("Turn {0}".format(_turns)) 
+    print(("Turn {0}".format(_turns))) 
     print("")
 
     # get user's guess:
     _guess_match = None
     while _guess_match is None:
-        _guess_input = raw_input(_guess_prompt)
+        _guess_input = input(_guess_prompt)
         _guess_match = re.match(_guess_regex, _guess_input)
         if _guess_match is None:
             print("Please enter your guess in the format A-1 or A1.")
@@ -265,8 +271,8 @@ while _misses < _misses_allowed and _ships_sunk < _ships_count:
         clear_console()
 
     if _debug:
-        print("You guessed {0:s}, which maps to row {1:d} and column {2:d}."
-              .format(_guess_input, _guess_row, _guess_col))
+        print(("You guessed {0:s}, which maps to row {1:d} and column {2:d}."
+              .format(_guess_input, _guess_row, _guess_col)))
     
     # first case should not happen per validation,
     # but leaving it in just in case:
@@ -294,7 +300,7 @@ while _misses < _misses_allowed and _ships_sunk < _ships_count:
                 _board[_guess_row][_guess_col] = _board_hit_char
             
             if sunk(_ship_hit):
-                print("You sunk my {}!".format(_ship_hit["Name"]))
+                print(("You sunk my {}!".format(_ship_hit["Name"])))
                 mark_ship_position(_ship_hit, "upper")
                 _ships_sunk += 1
             else:
